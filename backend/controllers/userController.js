@@ -52,14 +52,17 @@ exports.update = [
   body('password')
     .not().isEmpty()
     .trim(),
+  param('userId')
+    .isMongoId(),
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    const userId = req.params.userId;
+    const { userId } = req.params;
     const { email, password, name } = req.body;
     User.findById(userId, (err, doc)=> {
+      console.log(err, doc)
       if (err) {
         next(err);
       } else {

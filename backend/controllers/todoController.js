@@ -4,8 +4,7 @@ const { body, param } = require('express-validator/check');
 
 exports.list = [
   param('userId')
-    .not().isEmpty()
-    .trim(),
+    .isMongoId(),
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -31,8 +30,7 @@ exports.new = [
   body('done')
     .isBoolean(),
   param('userId')
-    .not().isEmpty()
-    .trim(),
+    .isMongoId(),
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -63,8 +61,7 @@ exports.update = [
   body('done')
     .isBoolean(),
   param('userId')
-    .not().isEmpty()
-    .trim(),
+    .isMongoId(),
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -96,8 +93,7 @@ exports.delete = [
   body('todoId')
     .not().isEmpty(),
   param('userId')
-    .not().isEmpty()
-    .trim(),
+    .isMongoId(),
   function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
