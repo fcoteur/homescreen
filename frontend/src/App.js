@@ -1,15 +1,24 @@
 import React from 'react';
-import './App.css';
-import SignIn from './components/SignIn'
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import NavBar from './components/NavBar'
-import Register from './components/Register'
 import About from './components/About'
+import Workbench from './components/workbench/Workbench'
+import SignIn from './components/SignIn'
+import Register from './components/Register'
+
+import './App.css';
 
 function App() {
   return (
     <div className="App">
       <NavBar />
-      <About />
+      <Router>
+        <Route path="/" exact component={About} />
+        <Route path="/workbench/" component={Workbench} />
+        <Route path="/signin/" component={SignIn} />
+        <Route path="/register/" component={Register} />
+      </Router>
     </div>
   );
 }

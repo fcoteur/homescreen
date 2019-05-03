@@ -43,10 +43,7 @@ function About(props) {
           </Typography>
           <Typography variant="body1" gutterBottom>
             <ul>
-              <li>HTML</li>
-              <li>CSS, Bootstrap</li>
-              <li>Javascript</li>
-              <li>D3.js - Data Driven Documents</li>
+              <li>HTML, CSS, Javascript</li>
               <li>React</li>
               <li>Node.js, Express</li>
               <li>MongoDB</li>

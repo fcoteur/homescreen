@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
+import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography';
+
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
-  appBar: { },
+  icon: {
+    margin: '5px'
+  },
   toolbarTitle: {  
-    flex: 1,
+    flex: 1
+  },
+  button: {
+    margin: '5px'
   }
 };
 
@@ -17,12 +24,18 @@ function NavBar(props) {
   const { classes } = props;
 
   return (
-      <AppBar position="static" color="default" className={classes.appBar}>
+      <AppBar position="static" color="default">
         <Toolbar>
-          <Typography variant="h6" color="inherit" align='left' noWrap className={classes.toolbarTitle}>
+          <Button href='/' className={classes.toolbarTitle}>
+          <Icon className={classes.icon} href='/'>whatshot</Icon>
+          <Typography variant="h6" color="inherit" align='left' noWrap > 
             Web Developments - Francis Coteur
           </Typography>
-          <Button color="primary" variant="outlined">
+          </Button>
+          <Button color="primary" variant="outlined" href='/register/' className={classes.button}>
+            Register
+          </Button>
+          <Button color="primary" variant="outlined" href='/signin/' className={classes.button}>
             Login
           </Button>
         </Toolbar>
