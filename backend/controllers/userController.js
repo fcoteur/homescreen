@@ -31,11 +31,11 @@ exports.new = [
     }
     const { email, password, name } = req.body;
     const user = new User({ email, password, name });
-    user.save((err, doc) => {
+    user.save((err, product) => {
       if (err) {
         next(err);
       } else {
-        res.send({ title: 'New User', id: doc._id });
+        res.send({ title: 'New User', id: product._id });
       }
     });
   }
@@ -62,15 +62,16 @@ exports.update = [
     const { userId } = req.params;
     const { email, password, name } = req.body;
     User.findById(userId, (err, doc)=> {
-      console.log(err, doc)
-      if (err) {
+      if (err || !doc) {
         next(err);
       } else {
         doc.email = email;
         doc.password = password;
         doc.name = name;
-        doc.save();
-        res.send({ title: 'User updated', id: doc._id });
+        doc.save((err, product) => {
+          if (err) next(err)
+          res.send({ title: 'User updated', id: product._id });
+        });
       }
     });
   }

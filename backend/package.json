@@ -3,10 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "backend": "nodemon ./bin/www",
+    "frontend": "npm run start --prefix ../frontend",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "concurrently": "^4.1.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv": "^7.0.0",
@@ -17,5 +21,7 @@
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
 }

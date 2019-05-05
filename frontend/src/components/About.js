@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+
+import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
@@ -9,7 +10,8 @@ import CardContent from '@material-ui/core/CardContent';
 const styles = {
   root: {
     width: '100%',
-    display: 'flex'
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   card: {
     width: '300px',

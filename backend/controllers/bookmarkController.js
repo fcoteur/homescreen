@@ -13,7 +13,7 @@ exports.list = [
     const { userId } = req.params;
     User.findById(userId)
     .exec(function (err, user) {
-      if (err) { 
+      if (err || !user) { 
         next(err);
       } else {
         res.send({ title: 'Bookmark List', bookmarks: user.bookmarks });
@@ -42,12 +42,14 @@ exports.new = [
 
     User.findById(userId)
     .exec(function (err, user) {
-      if (err) { 
+      if (err || !user) { 
         next(err);
       } else {
         user.bookmarks.push({ name, url })
-        user.save()
-        res.send({ title: 'New Bookmark', bookmarks: user.bookmarks });
+        user.save((err, product) => {
+          if (err) next(err)
+          res.send({ title: 'New Bookmark', bookmarks: product });
+        })
       }
     });
   }
@@ -74,15 +76,17 @@ exports.update = [
     const { bookmarkId, name, url } = req.body;
     User.findById(userId)
     .exec(function (err, user) {
-      if (err) { 
+      if (err || !user) { 
         next(err);
       } else {
         const indexBookmark = user.bookmarks.findIndex(e => e._id == bookmarkId) 
         if (indexBookmark !== -1) {
           user.bookmarks[indexBookmark].name = name
           user.bookmarks[indexBookmark].url = url
-          user.save()
-          res.send({ title: 'Bookmark updated', bookmarks: user.bookmarks });
+          user.save((err, product) => {
+            if (err) next(err)
+            res.send({ title: 'Bookmark updated', bookmarks: product });
+          })
         } else {
           const err = new Error('id of the bookmark is not found in the user profile')
           next(err)
@@ -106,12 +110,14 @@ exports.delete = [
     const { bookmarkId } = req.body;
     User.findById(userId)
     .exec(function (err, user) {
-      if (err) { 
+      if (err || !user) { 
         next(err);
       } else {
         user.bookmarks = user.bookmarks.filter(e => e._id != bookmarkId);
-        user.save();
-        res.send({ title: 'Deleted Bookmark', bookmarks: user.bookmarks });
+        user.save((err, product) => {
+          if (err) next(err)
+          res.send({ title: 'Deleted Bookmark', bookmarks: product });
+        });
       }
     });
   }

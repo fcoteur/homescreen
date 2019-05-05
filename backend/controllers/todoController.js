@@ -13,7 +13,7 @@ exports.list = [
     const { userId } = req.params;
     User.findById(userId)
     .exec(function (err, user) {
-      if (err) { 
+      if (err  || !user) { 
         next(err);
       } else {
         res.send({ title: 'Todo List', todos: user.todos });
@@ -40,12 +40,14 @@ exports.new = [
     const { title, done } = req.body;
     User.findById(userId)
     .exec(function (err, user) {
-      if (err) { 
+      if (err || !user) { 
         next(err);
       } else {
         user.todos.push({ title, done })
-        user.save()
-        res.send({ title: 'New Todo', todos: user.todos });
+        user.save((err, product) => {
+          if (err) next(err)
+          res.send({ title: 'New Todo', todos: product });
+        })
       }
     });
   }
@@ -71,15 +73,17 @@ exports.update = [
     const { todoId, title, done } = req.body;
     User.findById(userId)
     .exec(function (err, user) {
-      if (err) { 
+      if (err || !user) { 
         next(err);
       } else {
         const indexTodo = user.todos.findIndex(e => e._id == todoId) 
         if (indexTodo !== -1) {
           user.todos[indexTodo].title = title
           user.todos[indexTodo].done = done
-          user.save()
-          res.send({ title: 'Todo Updated', todos: user.todos });
+          user.save((err, product) => {
+            if (err) next(err)
+            res.send({ title: 'Todo Updated', todos: product });
+          })
         } else {
           const err = new Error('id of the todo is not found in the user profile')
           next(err)
@@ -107,8 +111,10 @@ exports.delete = [
         next(err);
       } else {
         user.todos = user.todos.filter(e => e._id != todoId);
-        user.save();
-        res.send({ title: 'Deleted Todo', todos: user.todos });
+        user.save((err, product) => {
+          if (err) next(err)
+          res.send({ title: 'Deleted Todo', todos: product });
+        });
       }
     });
   }

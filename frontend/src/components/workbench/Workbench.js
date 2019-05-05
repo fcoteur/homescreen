@@ -1,29 +1,25 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import TodosApp from './TodosApp/TodoApps'
-import BookmarksApp from './BookmarksApp/BookmarksApp'
-import WeatherApp from './WeatherApp/WeatherApp'
+import BookmarksApp from './tools/BookmarksApp';
+import TodosApp from './tools/TodosApp';
+import LocationsApp from './tools/LocationsApp';
 
-const Box = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`
+Workbench.propTypes = {
+  userData: PropTypes.array.isRequired
+};
 
-class Workbench extends Component { 
-  static propTypes = {
-    status: PropTypes.object.isRequired
-  } 
-  render() {
-      return (
-      <Box>
-        <BookmarksApp key='1' status={this.props.status}/>
-        <TodosApp key='2' status={this.props.status} />
-        <WeatherApp key='3'/>
-      </Box>
-    );
-  }
+function Workbench(props) {
+  
+  const {userData} = props;
+  
+  return (
+    <div>
+      <BookmarksApp bookmarks={userData.bookmarks}/>
+      <TodosApp todos={userData.todos}/>
+      <LocationsApp locations={userData.locations} />
+    </div>
+  )
 }
 
 export default Workbench;

@@ -17,6 +17,7 @@ var todoSchema = new Schema(
 var locationSchema = new Schema({
   city: {type: String, required: true},
   countryCode:  {type: String, required: true},
+  utcDiff: {type: Number, required: true},
   created: { type: Date, default: Date.now },
   modified: { type: String}
   }
