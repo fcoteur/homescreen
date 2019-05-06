@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PropTypes from 'prop-types';
+import axios from 'axios'
 
 import NavBar from './components/NavBar'
 import About from './components/About'
@@ -16,7 +17,7 @@ const styles = {
   main: { }
 }
 
-const userData= {
+const userData = {
   todos:[
     {
       done:false,
@@ -50,24 +51,29 @@ const userData= {
       created:"2019-04-26T19:53:49.602Z",
       _id:"5cc361cd6fd56e1342563046",
       city:"Madrid",
-      countryCode:"ES"
-    },
-    {
-      created:"2019-04-26T19:54:17.372Z",
-      _id:"5cc361e96fd56e1342563047",
-      city:"Barcelona",
-      countryCode:"ES"
+      countryCode:"ES",
+      utcDiff: 2
     }
   ]
 }
 
 function App(props) {
-  const [count, setCount] = useState(0);
+  const [userData, setUserData] = useState(
+    {
+      todos:[],
+      bookmarks:[],
+      locations:[]
+    }
+  );
   const { classes } = props;
 
   useEffect(() => {
+    axios.get(process.env.REACT_APP_SERVER+'users/')
+    .then(res => {console.log(res)})
+    .catch(error => {
+      console.log(error)
+    })
     
-    document.title = `You clicked ${count} times`;
   });
 
   return (

@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
@@ -12,6 +13,13 @@ var locationsRouter = require('./routes/locations');
 var bookmarksRouter = require('./routes/bookmarks');
 
 var app = express();
+
+// add CORS support to the server
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 
+}
+app.use(cors(corsOptions))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

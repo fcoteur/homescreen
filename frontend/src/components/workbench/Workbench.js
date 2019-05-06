@@ -6,7 +6,7 @@ import TodosApp from './tools/TodosApp';
 import LocationsApp from './tools/LocationsApp';
 
 Workbench.propTypes = {
-  userData: PropTypes.array.isRequired
+  userData: PropTypes.object.isRequired
 };
 
 function Workbench(props) {

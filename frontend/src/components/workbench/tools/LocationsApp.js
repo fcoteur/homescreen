@@ -19,6 +19,9 @@ function LocationsApp(props) {
   const { locations } = props;
 
   const LocationsList = locations.map(element => {
+    const date = new Date(Date.now())
+    const hourUTC = date.getUTCHours() + element.utcDiff + 'h' 
+    const minURC = (date.getUTCMinutes()<=9) ? `0${date.getUTCMinutes()}` : date.getUTCMinutes()
     return (
       <React.Fragment key={element._id}>
         <span >
@@ -26,6 +29,8 @@ function LocationsApp(props) {
           {String.fromCharCode(0x270E)}
           {' '}
           {element.city}
+          {' '}
+          {hourUTC+minURC}
         </span>
         <br/>
       </React.Fragment>
