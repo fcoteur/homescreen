@@ -13,68 +13,29 @@ import Register from './components/Register'
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
-  app: {  },
+  app: { },
   main: { }
 }
 
-const userData = {
-  todos:[
-    {
-      done:false,
-      created:"2019-04-26T19:57:08.374Z",
-      _id:"5cc3629485c63913f812a533",
-      title:"eat something good"
-    },
-    {
-      done:true,
-      created:"2019-04-26T20:27:31.443Z",
-      _id:"5cc369b3ff75d71910307b18",
-      title:"eat something ugly"
-    }
-  ],
-  bookmarks:[
-    {
-      created:"2019-04-26T20:25:29.064Z",
-      _id:"5cc3693901173b1849d8a5e6",
-      name:"google",
-      url:"https://material-ui.com/style/links/#accessibility" 
-    },
-    {
-      created:"2019-04-26T20:25:44.296Z",
-      _id:"5cc3694801173b1849d8a5e7",
-      name:"yahoo",
-      url:"https://material-ui.com/style/links/#accessibility"
-    }
-  ],
-  locations:[
-    {
-      created:"2019-04-26T19:53:49.602Z",
-      _id:"5cc361cd6fd56e1342563046",
-      city:"Madrid",
-      countryCode:"ES",
-      utcDiff: 2
-    }
-  ]
-}
-
 function App(props) {
-  const [userData, setUserData] = useState(
-    {
-      todos:[],
-      bookmarks:[],
-      locations:[]
-    }
-  );
+  const [userData, setUserData] = useState({
+    todos:[],
+    bookmarks:[],
+    locations:[]
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
   const { classes } = props;
 
   useEffect(() => {
-    axios.get(process.env.REACT_APP_SERVER+'users/')
-    .then(res => {console.log(res)})
-    .catch(error => {
-      console.log(error)
-    })
-    
-  });
+    const fetchData = async () => {
+      setIsLoading(true);
+      const result = await axios.get(process.env.REACT_APP_SERVER + 'users/');
+      setUserData(result.data.list[0]); 
+      setIsLoading(false);
+    }
+    fetchData()
+  }, []);        
 
   return (
     <div className={classes.app}>
@@ -82,7 +43,7 @@ function App(props) {
       <div className={classes.main}>
       <Router >
         <Route path="/" exact component={About} />
-        <Route path="/workbench/" render={(props) => <Workbench {...props} userData={userData} />} />
+        <Route path="/workbench/" render={(props) => <Workbench {...props} userData={userData} isLoading={isLoading} />} />
         <Route path="/signin/" component={SignIn} />
         <Route path="/register/" component={Register} />
         <Route path="/earlyapps/" component={Earlyapps} />
