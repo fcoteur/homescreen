@@ -54,7 +54,6 @@ function SignIn(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
   }
 
   return (

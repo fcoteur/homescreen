@@ -7,8 +7,8 @@ import NavBar from './components/NavBar'
 import About from './components/About'
 import Workbench from './components/workbench/Workbench'
 import Earlyapps from './components/earlyapps/Earlyapps'
-import SignIn from './components/SignIn'
-import Register from './components/Register'
+import SignIn from './components/login/SignIn'
+import Register from './components/login/Register'
 
 import { withStyles } from '@material-ui/core/styles';
 

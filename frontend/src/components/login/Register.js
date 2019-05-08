@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Icon } from '@material-ui/core';
+
+import {createUser} from '../security/userPreferences'
 
 const styles = theme => ({
   main: {
@@ -46,6 +48,30 @@ const styles = theme => ({
 function Register(props) {
   const { classes } = props;
 
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [pwdConf, setPwdConf] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!(password === pwdConf)) {
+      alert('password confirmation does not match with password')
+      return 
+    }
+    createUser({email,name,password})
+      .then(res => {
+        const {ok, error, data} = res
+        if (ok) {
+          alert(data.title)
+          props.history.push('/signin/')
+        } else {
+          console.error(`createUser failed: ${error}`);
+          alert('something went wrong, check the data entered and try again!')
+        }  
+      })
+  }
+
   return (
     <main className={classes.main}>
       <CssBaseline />
@@ -56,22 +82,22 @@ function Register(props) {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
-        <form className={classes.form}>
+        <form onSubmit={handleSubmit} className={classes.form}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="name">Name</InputLabel>
-            <Input id="name" name="name" autoComplete="name" autoFocus />
+            <Input onChange={(e) => setName(e.target.value)} id="name" name="name" autoComplete="name" autoFocus />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
+            <Input onChange={(e) => setEmail(e.target.value)}id="email" name="email" autoComplete="email" autoFocus />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" />
+            <Input onChange={(e) => setPassword(e.target.value)} name="password" type="password" id="password" autoComplete="current-password" />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="passwordConfirmation">Repeast password</InputLabel>
-            <Input name="passwordConfirmation" type="passwordConfirmation" id="passwordConfirmation" autoComplete="passwordConfirmation" />
+            <Input onChange={(e) => setPwdConf(e.target.value)} name="passwordConfirmation" type="password" id="passwordConfirmation" autoComplete="passwordConfirmation" />
           </FormControl>
           <Button
             type="submit"
